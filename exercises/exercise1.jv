@@ -24,7 +24,7 @@ pipeline AirportsDataPipeline {
     // TextFileInterpreter block to interpret the binary data as text
     block AirportsTextFileInterpreter oftype TextFileInterpreter { }
 
-    // CSVInterpreter block to parse the text as a CSV file
+    // CSVInterpreter block to parse as a CSV file
     block AirportsCSVInterpreter oftype CSVInterpreter {
         delimiter: ";";
     }
@@ -57,5 +57,5 @@ pipeline AirportsDataPipeline {
         file: "./airports.sqlite";
     }
 
-    // End of the pipeline
+
 }
