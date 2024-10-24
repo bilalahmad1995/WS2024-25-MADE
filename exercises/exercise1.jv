@@ -1,0 +1,61 @@
+//BILAL AHMAD
+//M.SC. DATA SCIENCE
+//MATRICLUATION # 23040780 
+//METHODS OF ADVANCED DATA ENGINEERING
+//EXERCISE1_SOLUTION
+
+
+// Pipeline for loading Airports data into SQLite
+pipeline AirportsDataPipeline {
+
+    // Defining structure of the pipeline
+    AirportsDataExtractor
+        -> AirportsTextFileInterpreter
+        -> AirportsCSVInterpreter
+        -> DroppingLastFourColumns
+        -> AirportsTableInterpreter
+        -> AirportsSQLiteLoader;
+
+    // HttpExtractor block to fetch the CSV data from the web
+    block AirportsDataExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/explore/v2.1/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv?lang=en&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B";
+    }
+
+    // TextFileInterpreter block to interpret the binary data as text
+    block AirportsTextFileInterpreter oftype TextFileInterpreter { }
+
+    // CSVInterpreter block to parse the text as a CSV file
+    block AirportsCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    // ColumnDeleter block to drop the four columns (Zeitzone, DST, Zeitzonen-Datenbank, and geo_punkt)
+    block DroppingLastFourColumns oftype ColumnDeleter {
+        delete: [ column J, column K, column L, column M
+        ];
+    }
+
+    // TableInterpreter block to define the structure of the table and column types
+    block AirportsTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "Lfd. Nummer" oftype integer,
+            "Name des Flughafens" oftype text,
+            "Ort" oftype text,
+            "Land" oftype text,
+            "IATA" oftype text,
+            "ICAO" oftype text,
+            "Latitude" oftype decimal,
+            "Longitude" oftype decimal,
+            "Altitude" oftype decimal
+        ];
+    }
+
+    // SQLiteLoader block to load the interpreted table into a SQLite database
+    block AirportsSQLiteLoader oftype SQLiteLoader {
+        table: "airports";
+        file: "./airports.sqlite";
+    }
+
+    // End of the pipeline
+}
