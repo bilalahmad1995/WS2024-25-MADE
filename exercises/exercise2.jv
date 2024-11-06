@@ -14,7 +14,7 @@ pipeline TreesDataPipeline {
         -> TreesTableInterpreter
         -> TreesSQLiteLoader;
 
-    // HttpExtractor block to fetch the CSV data from the web
+    // HttpExtractor block to fetch the CSV data from web
     block TreesDataExtractor oftype HttpExtractor {
         url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
     }
