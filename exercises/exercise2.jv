@@ -1,0 +1,77 @@
+//BILAL AHMAD
+//M.SC. DATA SCIENCE
+//METHODS OF ADVANCED DATA ENGINEERING
+//EXERCISE2_SOLUTION
+
+// Pipeline for loading Trees data into SQLite
+pipeline TreesDataPipeline {
+
+    // Defining structure of the pipeline
+    TreesDataExtractor
+        -> TreesTextFileInterpreter
+        -> TreesCSVInterpreter
+        -> DroppingBaumartDeutschColumn
+        -> TreesTableInterpreter
+        -> TreesSQLiteLoader;
+
+    // HttpExtractor block to fetch the CSV data from the web
+    block TreesDataExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
+    }
+
+    // TextFileInterpreter block to interpret the binary data as text
+    block TreesTextFileInterpreter oftype TextFileInterpreter { }
+
+    // CSVInterpreter block to parse as a CSV file
+    block TreesCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+
+    }
+    // Dropping the "baumart_deutsch" column
+    block DroppingBaumartDeutschColumn oftype ColumnDeleter {
+        delete: [ column E];
+    }
+
+    // Updated TableInterpreter to define column types and exclude "baumart_deutsch"
+    block TreesTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "lfd_nr" oftype integer,
+            "stadtteil" oftype ValidDistrict,
+            "standort" oftype text,
+            "baumart_botanisch" oftype text,
+            "id" oftype ValidIdsGP,
+            "baumfamilie" oftype text
+        ];
+    }
+
+    // SQLiteLoader block to load the interpreted table into a SQLite database
+    block TreesSQLiteLoader oftype SQLiteLoader {
+        table: "trees";
+        file: "./trees.sqlite";
+    }
+}
+
+// Defining custom value types and constraints
+
+// Ensure "stadtteil" is valid 
+valuetype ValidDistrict oftype text {
+    constraints: [
+        OnlyDistrictList,
+    ];
+}
+
+valuetype ValidIdsGP oftype text {
+    constraints: [
+        OnlyValidIdsGeopoints,
+    ];
+}
+
+// Constraint to only allow stadtteil that starts with"Vogelsang"  
+constraint OnlyDistrictList oftype AllowlistConstraint{
+    allowlist: ["Vogelsang", "Vogelsang Bols-Siedlung"];
+}
+
+// Constraint to ensure "id" is in the correct format
+constraint OnlyValidIdsGeopoints on text:
+    value matches /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;
