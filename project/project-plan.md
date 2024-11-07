@@ -31,3 +31,21 @@ This analysis benefits investors, market analysts, and strategists seeking data-
 CC0: Public Domain: https://creativecommons.org/publicdomain/zero/1.0/
 
 ## Work Packages:
+
+1. Identify a Relevant Dataset. [#1][i1]
+2. Establish Initial Project Plan. [#2][i2]
+3. Set Up Data Extraction and Kaggle API. [#3][i3]
+4. Perform Data Transformation. [#4][i4]
+5. Load Data into Target Destination. [#5][i5]
+6. Develop `pipeline.sh` Script to Test ETL_Pipeline. [#6][i6]
+7. Configure CI Pipeline for Project Automation. [#7][i7]
+8. Prepare Final Project Documentation. [#8][i8]
+
+[i1]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i2]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i3]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i4]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i5]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i6]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i7]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i8]: https://github.com/bilalahmad1995/WS2024-25-MADE
