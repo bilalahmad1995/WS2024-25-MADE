@@ -20,10 +20,16 @@ The project will involve data preprocessing and tranformations to ensure accurac
 
 This analysis benefits investors, market analysts, and strategists seeking data-driven insights to support decision-making in financial investments. Understanding which sectors exhibit higher growth potential and profitability can help stakeholders make more informed choices regarding investments in these companies.
 
-### Datasource:
+### Datasource1:
 
 - Metadata URL: https://www.kaggle.com/datasets/andrewmvd/sp-500-stocks/data
 - Data URL: https://www.kaggle.com/datasets/andrewmvd/sp-500-stocks?select=sp500_companies.csv
+- Data Type: CSV
+
+### Datasource2:
+
+- Metadata URL: https://www.kaggle.com/datasets/paveljurke/s-and-p-500-gspc-historical-data
+- Data URL: https://www.kaggle.com/datasets/paveljurke/s-and-p-500-gspc-historical-data?select=sap500.csv
 - Data Type: CSV
 
 ## License
