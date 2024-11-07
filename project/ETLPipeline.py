@@ -30,7 +30,7 @@ class SP500ETL:
             logging.error(f"Download error: {err}")
             raise
 
-    def process_data(self, data):
+    def transform_and_process_data(self, data):
         try:
             # Convert 'Fulltimeemployees' column to integers
             data['Fulltimeemployees'] = pd.to_numeric(data['Fulltimeemployees'], errors='coerce').fillna(0).astype(int)
