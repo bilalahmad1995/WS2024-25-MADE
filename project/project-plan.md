@@ -38,7 +38,7 @@ CC0: Public Domain: https://creativecommons.org/publicdomain/zero/1.0/
 
 ## Work Packages:
 
-1. Identify a Relevant Dataset. [#1][i1]
+1. Identify Relevant Datasets. [#1][i1]
 2. Establish Initial Project Plan. [#2][i2]
 3. Set Up Data Extraction and Kaggle API. [#3][i3]
 4. Perform Data Transformation. [#4][i4]
