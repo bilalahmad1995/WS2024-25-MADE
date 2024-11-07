@@ -62,7 +62,7 @@ class SP500ETL:
     def execute_etl(self, database_name, table_name):
         try:
             raw_data = self.download_data()
-            processed_data = self.process_data(raw_data)
+            processed_data = self.transform_and_process_data(raw_data)
             self.store_data(processed_data, database_name, table_name)
             logging.info("ETL process successfully completed.")
             return processed_data, database_name, table_name
