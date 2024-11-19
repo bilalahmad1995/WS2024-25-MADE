@@ -54,13 +54,13 @@ pipeline WBDevelopmentDataPipeline {
   // 9. Block to load "Bond Issuance Share" data into a SQLite table
   block BondDataLoader oftype SQLiteLoader {
     table: "bondIssuance"; 
-    file: "../data/country-stats.sqlite"; 
+    file: "country-stats.sqlite"; 
   }
 
   // 10. Block to load "GDP per Capita" data into a SQLite table
   block GDPDataLoader oftype SQLiteLoader {
     table: "gdpPerCapita"; 
-    file: "../data/country-stats.sqlite"; 
+    file: "country-stats.sqlite"; 
   }
 
 
