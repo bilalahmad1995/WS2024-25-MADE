@@ -4,7 +4,7 @@
 
 <!-- Give your project a short title. -->
 
-S&P 500 Companies Data
+S&P 500 Companies Data and historical S&P 500 index data
 
 ## Main Question
 
