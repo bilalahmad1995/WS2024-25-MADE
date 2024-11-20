@@ -74,10 +74,6 @@ class SP500ETL:
             }, inplace=True)
             
             # Round 'open_price', 'high_price', 'low_price', and 'close_price' to 2 decimal places
-            data['open_price'] = data['open_price'].round(2)
-            data['high_price'] = data['high_price'].round(2)
-            data['low_price'] = data['low_price'].round(2)
-            data['close_price'] = data['close_price'].round(2)
 
             logging.info("Data transformation complete for second dataset.")
             return data
@@ -95,22 +91,24 @@ class SP500ETL:
             logging.error(f"Storage error: {err}")
             raise
 
-    def execute_etl(self, database_name):
-        try:
-            # Process first dataset and store in `sp500_companies`
-            raw_data_1 = self.download_data(self.kaggle_dataset_1, self.sp500_companies_data)
-            processed_data_1 = self.transform_and_process_data(raw_data_1)
-            self.store_data(processed_data_1, database_name, 'sp500_companies')
+def execute_etl(self, database_name, table_name):
+    try:
+        # Process first dataset and store in `sp500_companies`
+        raw_data_1 = self.download_data(self.kaggle_dataset_1, self.sp500_companies_data)
+        processed_data_1 = self.transform_and_process_data(raw_data_1)
+        self.store_data(processed_data_1, database_name, table_name)
 
-            # Process second dataset and store in `sp500_stocksprice_and_volume`
-            raw_data_2 = self.download_data(self.kaggle_dataset_2, self.sp500_volume_data)
-            processed_data_2 = self.transform_second_dataset(raw_data_2)
-            self.store_data(processed_data_2, database_name, 'sp500_stocksprice_and_volume')
-            
-            logging.info("ETL process successfully completed for both datasets.")
-            return processed_data_1, processed_data_2, database_name, 'sp500_companies', 'sp500_stocksprice_and_volume'
-        except Exception as err:
-            logging.error(f"ETL process error: {err}")
+        # Process second dataset and store in `sp500_stocksprice_and_volume`
+        raw_data_2 = self.download_data(self.kaggle_dataset_2, self.sp500_volume_data)
+        processed_data_2 = self.transform_second_dataset(raw_data_2)
+        self.store_data(processed_data_2, database_name, 'sp500_stocksprice_and_volume')
+        
+        logging.info("ETL process successfully completed for both datasets.")
+        return processed_data_1, processed_data_2, database_name, table_name, 'sp500_stocksprice_and_volume'
+    except Exception as err:
+        logging.error(f"ETL process error: {err}")
+        raise
+
 
 # Run the ETL pipeline
 etl_pipeline = SP500ETL()
