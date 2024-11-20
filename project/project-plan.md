@@ -14,11 +14,13 @@ S&P 500 Companies Data
 
 ## Description
 
-This project aims to analyze S&P 500 companies to identify sectors with the highest market capitalization and revenue growth, providing insights into high-growth areas in the U.S. stock market. Leveraging attributes such as sector, industry, current price, market capitalization, EBITDA, revenue growth, and employee count, this analysis offers a comprehensive view of the financial health and workforce distribution across major sectors.
+This project aims to provide a comprehensive analysis of the S&P 500, leveraging both company-level financial metrics and historical market activity to uncover key trends and insights. The analysis combines two complementary perspectives: sectoral performance and historical market behavior.
 
-The project will involve data preprocessing and tranformations to ensure accuracy, followed by exploratory data analysis (EDA) to uncover patterns and trends. By calculating sector-wise averages and using visualizations, we can observe how factors like market capitalization and revenue growth differ across sectors.
+On the company level, the project seeks to identify sectors with the highest market capitalization and revenue growth, offering insights into high-growth areas within the U.S. stock market. Attributes such as sector, industry, current price, market capitalization, EBITDA, revenue growth, and employee count will be analyzed to present a holistic view of financial health and workforce distribution across major sectors. By calculating sector-wise averages and utilizing visualizations, the analysis highlights variations in growth potential and profitability among sectors, helping investors and strategists focus on high-performing areas.
 
-This analysis benefits investors, market analysts, and strategists seeking data-driven insights to support decision-making in financial investments. Understanding which sectors exhibit higher growth potential and profitability can help stakeholders make more informed choices regarding investments in these companies.
+On the market level, the project investigates historical S&P 500 index data, including attributes such as date, opening price, highest price, lowest price, closing price, and trading volume. Through data preprocessing, transformations, and exploratory data analysis (EDA), the study uncovers patterns in daily market activity, fluctuations in closing prices, trends in trading volume, and market volatility reflected in the high-low price spread. Monthly averages and correlations between trading volume and closing prices are explored to provide a long-term perspective on market dynamics.
+
+This dual analysis benefits investors, market analysts, and financial strategists by delivering data-driven insights into both sectoral growth potential and historical market trends. Understanding how sectors perform financially and how the market has evolved over time enables stakeholders to make informed decisions regarding investments, portfolio management, and risk assessment. By combining these perspectives, the project aims to provide a robust foundation for strategic decision-making in the U.S. stock market.
 
 ### Datasource1:
 
