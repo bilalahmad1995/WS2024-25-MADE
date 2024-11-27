@@ -2,5 +2,3 @@
 /data/*
 !/data/.gitkeep
 env/
-project/EDA.ipynb
-project/data-report.pdf
