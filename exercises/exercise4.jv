@@ -1,0 +1,99 @@
+//BILAL AHMAD
+//M.SC. DATA SCIENCE
+//METHODS OF ADVANCED DATA ENGINEERING
+//EXERCISE4_SOLUTION
+
+
+pipeline BatteryTemperatureDataPipeline {
+
+    block Extractor oftype HttpExtractor {
+		url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+	}
+
+    block ZipInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+    block DataFilePicker oftype FilePicker {
+        path:'/data.csv';
+    }
+
+	
+	block BTTextFileInterpreter oftype TextFileInterpreter {}
+
+	
+	block BTCSVInterpreter oftype CSVInterpreter {
+		delimiter: ";";
+	}
+
+    block HeaderRenaming oftype CellWriter {
+        at: range A1:E1;
+        write: ["id", "producer","model","month","temperature"];
+    }
+
+    block batteryTempHeaderRenaming oftype CellWriter {
+        at: cell J1;
+        write:["battery_temperature"];
+    }
+
+    block BTTableInterpreter oftype TableInterpreter {
+        header:true;
+        columns: [
+            "id" oftype PostiveInteger,
+            "producer" oftype text,
+            "model" oftype text,
+            "month" oftype MonthType,
+            "temperature" oftype decimal,
+            "battery_temperature" oftype decimal
+        ];
+    }
+
+    transform CelsiusToFahrenheitConversion {
+        from Celsius oftype decimal;
+        to Fahrenheit oftype decimal;
+        Fahrenheit: (Celsius * 9/5) + 32;
+    }
+
+    block TempToFahrenheit oftype TableTransformer {
+        inputColumns: ['temperature'];
+        outputColumn: 'temperature';
+        uses: CelsiusToFahrenheitConversion;
+    }
+
+    block BatteryTempToFahrenheit oftype TableTransformer {
+        inputColumns: ['battery_temperature'];
+        outputColumn: 'battery_temperature';
+        uses: CelsiusToFahrenheitConversion;
+    }
+
+    block BTLoader oftype SQLiteLoader {
+        table:'temperatures';
+        file:'temperatures.sqlite';
+    }
+
+    constraint PositiveConstraint on integer:
+        value >= 0;
+
+    valuetype PostiveInteger oftype integer {
+        constraints: [PositiveConstraint];
+    }
+
+    constraint MonthConstraint on integer:
+        value >= 1 and value <= 12;
+    
+    valuetype MonthType oftype integer {
+        constraints:[MonthConstraint];
+    }
+
+    Extractor
+        -> ZipInterpreter
+        -> DataFilePicker
+        -> BTTextFileInterpreter
+        -> BTCSVInterpreter
+        -> HeaderRenaming
+        -> batteryTempHeaderRenaming
+        -> BTTableInterpreter
+        -> TempToFahrenheit
+        -> BatteryTempToFahrenheit
+        -> BTLoader;
+}
