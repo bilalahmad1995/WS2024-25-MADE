@@ -1,0 +1,71 @@
+//BILAL AHMAD
+//M.SC. DATA SCIENCE
+//METHODS OF ADVANCED DATA ENGINEERING
+//EXERCISE5_SOLUTION
+
+pipeline GTFSPipeline {
+
+
+    block TransitDataExtractor oftype HttpExtractor {
+		url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+	}
+
+    block TransitZipProcessor oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+    block TransitFileSelector oftype FilePicker {
+        path:"/stops.txt";
+    }
+
+	// Text Interpreter
+	block TransitTextAnalyzer oftype TextFileInterpreter {}
+
+	// CSV Interpreter
+	block TransitCSVAnalyzer oftype CSVInterpreter {
+		delimiter: ",";
+        enclosing: '"';
+	}
+
+    constraint zone1925 on integer:
+        value == 1925;
+
+    valuetype OnlyKeepZone1925 oftype integer {
+        constraints: [zone1925];
+    }
+
+    constraint GeographiCoordinates oftype RangeConstraint {
+        lowerBound: -90;
+        lowerBoundInclusive: true;
+        upperBound: 90;
+        upperBoundInclusive: true;
+    }
+
+    valuetype GeographiCoordinatesAngle oftype decimal {
+        constraints: [GeographiCoordinates];
+    }
+
+    block TransitTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns:[
+            "stop_id" oftype integer,
+            "stop_name" oftype text,
+            "stop_lat" oftype GeographiCoordinatesAngle,
+            "stop_lon" oftype GeographiCoordinatesAngle,
+            "zone_id" oftype OnlyKeepZone1925
+        ];
+    }
+
+    block LoadTransitData oftype SQLiteLoader {
+        table: "stops";
+        file: "./gtfs.sqlite";
+    }
+
+        TransitDataExtractor
+        -> TransitZipProcessor
+        -> TransitFileSelector
+        -> TransitTextAnalyzer
+        -> TransitCSVAnalyzer
+        -> TransitTableInterpreter
+        -> LoadTransitData;
+}
