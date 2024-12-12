@@ -1,4 +1,4 @@
-name: CI for S&P500 ETL Project
+name: S&P500ETL CI Pipeline
 
 on:
   push:
@@ -10,34 +10,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout Code
+      # Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
-      - name: Set up Python
+      # Set up Python environment
+      - name: Set up Python 3.x
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: "3.9"
 
-      # Step 3: Install dependencies
-      - name: Install Dependencies
+      # Install dependencies
+      - name: Install dependencies
         run: |
-          python3 -m pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Set Kaggle API keys
-      - name: Set Kaggle API keys
+      # Set up Kaggle API key using GitHub Secrets
+      - name: Set up Kaggle API key
         env:
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
         run: |
           mkdir -p ~/.kaggle
-          echo "{\"username\":\"${KAGGLE_USERNAME}\",\"key\":\"${KAGGLE_KEY}\"}" > ~/.kaggle/kaggle.json
+          echo '{"username":"${KAGGLE_USERNAME}","key":"${KAGGLE_KEY}"}' > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
-      # Step 5: Run the test script
-      - name: Run Tests
-        run: |
-          chmod +x test.sh
-          ./test.sh
+      # Run test.sh script
+      - name: Run tests
+        run: bash test.sh
+
+      # Upload logs (optional, for debugging)
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: etl-pipeline-logs
+          path: ETLPipeline.log
