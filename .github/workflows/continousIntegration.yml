@@ -33,7 +33,7 @@ jobs:
       # Step 5: Check for test.sh existence
       - name: Debug test.sh
         run: |
-          if [ -f ./project/test.sh ]; then
+          if [ -f ./test.sh ]; then
             echo "test.sh exists and is ready to execute."
           else
             echo "test.sh not found."
