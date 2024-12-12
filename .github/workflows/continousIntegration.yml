@@ -14,24 +14,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: List all files to confirm file structure
-      - name: List all files in repository
+      # Step 2: Set up Python environment
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # Step 3: Install dependencies, including Kaggle API
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install kaggle
+
+      # Step 4: Set up Kaggle API credentials
+      - name: Set up Kaggle API credentials
+        env:
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        run: |
+          mkdir -p ~/.kaggle
+          echo '{"username":"${KAGGLE_USERNAME}","key":"${KAGGLE_KEY}"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      # Step 5: Debug file location
+      - name: List all files
         run: ls -R
 
-      # Step 3: Check if project/test.sh exists
-      - name: Verify test.sh existence
-        run: |
-          if [ -f ./project/test.sh ]; then
-            echo "test.sh exists in the project folder and is ready to execute."
-          else
-            echo "test.sh not found in the project folder."
-            exit 1
-          fi
-
-      # Step 4: Ensure test.sh is executable
+      # Step 6: Ensure test.sh is executable
       - name: Ensure test.sh is executable
         run: chmod +x ./project/test.sh
 
-      # Step 5: Run the test script
+      # Step 7: Run the test script
       - name: Run tests
         run: bash ./project/test.sh
