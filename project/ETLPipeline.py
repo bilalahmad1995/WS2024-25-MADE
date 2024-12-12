@@ -114,4 +114,3 @@ etl_pipeline = SP500ETL()
 # Run with specified database and tables
 final_data_1, final_data_2, db, tbl1, tbl2 = etl_pipeline.execute_etl('../data/sp500_data.db', 'sp500_companies')
 
-# Testing CI 
