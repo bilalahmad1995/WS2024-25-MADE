@@ -54,6 +54,6 @@ CC0: Public Domain: https://creativecommons.org/publicdomain/zero/1.0/
 [i3]: https://github.com/bilalahmad1995/WS2024-25-MADE
 [i4]: https://github.com/bilalahmad1995/WS2024-25-MADE
 [i5]: https://github.com/bilalahmad1995/WS2024-25-MADE
-[i6]: https://github.com/bilalahmad1995/WS2024-25-MADE
-[i7]: https://github.com/bilalahmad1995/WS2024-25-MADE
+[i6]: https://github.com/bilalahmad1995/WS2024-25-MADE/blob/main/project/pipeline.sh
+[i7]: https://github.com/bilalahmad1995/WS2024-25-MADE/actions/runs/12297559557
 [i8]: https://github.com/bilalahmad1995/WS2024-25-MADE
