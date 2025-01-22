@@ -34,7 +34,7 @@ This project implements an ETL (Extract, Transform, Load) pipeline for analyzing
 - Two datasets are used:
   1. **S&P 500 Companies Data**: Contains company-level information such as sector, market capitalization, EBITDA, and employee count.
   2. **S&P 500 Index Data**: Historical data including daily open, high, low, close, and trading volumes.
-- Both datasets are public domain (CC0 1.0 license).
+- Both datasets are public domain (CC0 1.0 license). [License: CC0 1.0 Universal (Public Domain Dedication)](https://creativecommons.org/publicdomain/zero/1.0/deed.en)
 
 ### 2. Transformation
 
