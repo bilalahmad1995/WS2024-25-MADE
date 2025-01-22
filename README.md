@@ -1,37 +1,62 @@
-# Methods of Advanced Data Engineering Template Project
+# S&P 500 Companies and Index Analysis and ETL Pipeline
 
-This template project provides some structure for your open data project in the MADE module at FAU.
-This repository contains (a) a data science project that is developed by the student over the course of the semester, and (b) the exercises that are submitted over the course of the semester.
+## Overview
 
-To get started, please follow these steps:
-1. Create your own fork of this repository. Feel free to rename the repository right after creation, before you let the teaching instructors know your repository URL. **Do not rename the repository during the semester**.
+This project implements an ETL (Extract, Transform, Load) pipeline for analyzing S&P 500 company data and historical index performance. The goal is to equip investors and financial strategists with data-driven insights for investment decisions, portfolio management, and risk assessment in the U.S. stock market.
 
-## Project Work
-Your data engineering project will run alongside lectures during the semester. We will ask you to regularly submit project work as milestones, so you can reasonably pace your work. All project work submissions **must** be placed in the `project` folder.
+## Key Features
 
-### Exporting a Jupyter Notebook
-Jupyter Notebooks can be exported using `nbconvert` (`pip install nbconvert`). For example, to export the example notebook to HTML: `jupyter nbconvert --to html examples/final-report-example.ipynb --embed-images --output final-report.html`
+- **ETL Pipeline**:
+  - Extracts data directly from Kaggle using the Kaggle API.
+  - Transforms the data to ensure consistency, readability, and usability.
+  - Loads the processed data into a lightweight SQLite database for analysis.
+- **Data Analysis**:
+  - Provides insights into market capitalization, revenue growth, EBITDA, and workforce distribution across sectors.
+  - Examines historical market trends, trading volumes, and volatility of the S&P 500 index.
 
+## Technologies Used
 
-## Exercises
-During the semester you will need to complete exercises using [Jayvee](https://github.com/jvalue/jayvee). You **must** place your submission in the `exercises` folder in your repository and name them according to their number from one to five: `exercise<number from 1-5>.jv`.
+- **Programming Language**: Python
+- **Libraries**:
+  - Pandas (data manipulation and preprocessing)
+  - SQLite (data storage)
+  - Kaggle API (data extraction)
+  - Logging (pipeline monitoring and debugging)
+- **Tools**:
+  - VS Code (development environment)
+  - Jupyter Notebook (exploratory data analysis)
 
-In regular intervals, exercises will be given as homework to complete during the semester. Details and deadlines will be discussed in the lecture, also see the [course schedule](https://made.uni1.de/).
+## ETL Pipeline Process
 
-### Exercise Feedback
-We provide automated exercise feedback using a GitHub action (that is defined in `.github/workflows/exercise-feedback.yml`). 
+### 1. Extraction
 
-To view your exercise feedback, navigate to Actions → Exercise Feedback in your repository.
+- Data is retrieved directly from Kaggle using the Kaggle API.
+- Two datasets are used:
+  1. **S&P 500 Companies Data**: Contains company-level information such as sector, market capitalization, EBITDA, and employee count.
+  2. **S&P 500 Index Data**: Historical data including daily open, high, low, close, and trading volumes.
+- Both datasets are public domain (CC0 1.0 license).
 
-The exercise feedback is executed whenever you make a change in files in the `exercise` folder and push your local changes to the repository on GitHub. To see the feedback, open the latest GitHub Action run, open the `exercise-feedback` job and `Exercise Feedback` step. You should see command line output that contains output like this:
+### 2. Transformation
 
-```sh
-Found exercises/exercise1.jv, executing model...
-Found output file airports.sqlite, grading...
-Grading Exercise 1
-	Overall points 17 of 17
-	---
-	By category:
-		Shape: 4 of 4
-		Types: 13 of 13
+- Data cleaning and preprocessing steps include:
+  - Converting column data types.
+  - Renaming columns for clarity.
+  - Handling missing values and scaling metrics (e.g., market cap and EBITDA to billions).
+  - Removing invalid or unnecessary data (e.g., rows with zero trading volume).
+- Ensures consistency and reliability for downstream analysis.
+
+### 3. Loading
+
+- The transformed data is stored in an SQLite database.
+- Two tables are created:
+  - `sp500_companies`: Contains details of S&P 500 companies.
+  - `sp500_stocksprice_and_volume`: Contains historical index data.
+
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/bilalahmad1995/WS2024-25-MADE.git
+cd project
 ```
